@@ -66,7 +66,6 @@ namespace SkysFormsDemo.Pages.Person
 
                 }).ToList();
 
-            lastTicks = 0;
             if (list.Any())
                 lastTicks = list.Last().BoughtDate.Ticks;
             return new JsonResult(new {items = list, lastTicks});
