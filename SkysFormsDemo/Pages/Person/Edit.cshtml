@@ -19,6 +19,13 @@
                 <input class="form-control" asp-for="Email">
                 <span asp-validation-for="Email" class="field-validation-error"></span>
             </div>
+            
+            <div class="form-group">
+                <label asp-for="EmailAgain">Igen</label>
+                <input class="form-control" asp-for="EmailAgain">
+                <span asp-validation-for="EmailAgain" class="field-validation-error"></span>
+            </div>
+
             <div class="form-group">
                 <label asp-for="StreetAddress">Gatuadress</label>
                 <input class="form-control" asp-for="StreetAddress">
@@ -43,7 +50,15 @@
                 </select>
                 <span asp-validation-for="CountryId" class="field-validation-error"></span>
             </div>
+
             
+            <div class="form-group">
+                <label asp-for="GoodYear">År</label>
+                <input class="form-control" asp-for="GoodYear">
+                <span asp-validation-for="GoodYear" class="field-validation-error"></span>
+            </div>
+            
+
 
             <div class="form-group">
                 <label asp-for="Salary">Lön</label>
@@ -62,3 +77,9 @@
 
     </div>
 </div>
+
+
+@section Scripts
+{
+    <partial name="Shared/_ValidationScriptsPartial"/>
+}

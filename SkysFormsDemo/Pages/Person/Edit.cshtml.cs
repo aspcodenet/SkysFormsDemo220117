@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using SkysFormsDemo.Data;
+using SkysFormsDemo.Infrastructure.Validation;
 using SkysFormsDemo.Services;
 
 namespace SkysFormsDemo.Pages.Person
@@ -41,9 +42,19 @@ namespace SkysFormsDemo.Pages.Person
         [EmailAddress]
         public string Email { get; set; }
 
+
+        [StringLength(150)]
+        [EmailAddress]
+        //[Compare("Email")]
+        [Compare(nameof(Email))]
+        public string EmailAgain { get; set; }
+        
+
         public int CountryId { get; set; }
         public List<SelectListItem> Countries { get; set; }
 
+        [GoodYear(ErrorMessage = "Varken Stefan eller hans fru föddes det året")]
+        public int GoodYear { get; set; }
 
         public EditModel(ApplicationDbContext context)
         {
