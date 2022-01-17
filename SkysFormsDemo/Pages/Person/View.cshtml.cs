@@ -30,6 +30,11 @@ namespace SkysFormsDemo.Pages.Person
             _context = context;
         }
 
+        public IActionResult OnGetFetchValue(int id)
+        {
+            return new JsonResult(new { value = id * 1000 });
+        }
+
         public void OnGet(int personId)
         {
             Id = personId;

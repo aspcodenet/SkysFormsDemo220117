@@ -3,7 +3,7 @@
 @{
 }
 
-div class="card">
+<div class="card">
 <div class="card-header">
     <h1>@Model.Name</h1>
 </div>
@@ -26,8 +26,8 @@ div class="card">
                 <td>@car.Type</td>
                 <td>@car.Fuel</td>
                 <td>@car.BoughtDate</td>
-                <td>
-                    <a href="btn btn-primary">Get value</a>
+                <td onclick="javascript:fetchEvaluation(@car.Id, this)" class="btn btn-primary">
+                    Get value
                 </td>
             </tr>
 
@@ -39,3 +39,21 @@ div class="card">
 
 </div>
 </div>
+
+
+@section Scripts
+{
+    <script>
+        function fetchEvaluation(id, elem) {
+            fetch("View?handler=FetchValue&id=" + id)
+                .then((response) => response.json())
+                .then((json) => {
+                        elem.innerHTML = json.value;
+                    }
+            
+                );
+            
+        }  
+
+    </script>    
+}
