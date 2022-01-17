@@ -31,7 +31,7 @@ namespace SkysFormsDemo.Pages.Person
 
         public IActionResult OnGetFetchValue(int id)
         {
-            return new JsonResult(new { value = id * 1000 });
+            return new JsonResult(new {value = id * 1000});
         }
 
         public void OnGet(int personId)
@@ -69,10 +69,9 @@ namespace SkysFormsDemo.Pages.Person
             lastTicks = 0;
             if (list.Any())
                 lastTicks = list.Last().BoughtDate.Ticks;
-            return new JsonResult(new { items = list, lastTicks });
+            return new JsonResult(new {items = list, lastTicks});
         }
     }
+}
 
 
-}
-}
