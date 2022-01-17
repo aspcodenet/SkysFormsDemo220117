@@ -1,0 +1,41 @@
+﻿@page
+@model SkysFormsDemo.Pages.Person.ViewModel
+@{
+}
+
+div class="card">
+<div class="card-header">
+    <h1>@Model.Name</h1>
+</div>
+<div class="card-body">
+    <table class="table" id="posts-table">
+        <tr>
+            <th>Manufacturer</th>
+            <th>Model</th>
+            <th>Type</th>
+            <th>Fuel</th>
+            <th>Boughtdate</th>
+            <th></th>
+        </tr>
+        <tbody>
+        @foreach (var car in Model.Items)
+        {
+            <tr>
+                <td>@car.Manufacturer</td>
+                <td>@car.Model</td>
+                <td>@car.Type</td>
+                <td>@car.Fuel</td>
+                <td>@car.BoughtDate</td>
+                <td>
+                    <a href="btn btn-primary">Get value</a>
+                </td>
+            </tr>
+
+        }
+
+        </tbody>
+    </table>
+        
+
+</div>
+</div>

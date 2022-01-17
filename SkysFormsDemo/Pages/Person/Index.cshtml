@@ -19,6 +19,7 @@
                 <th>City</th>
                 <th></th>
                 <th></th>
+                <th></th>
             </tr>
             @foreach (var person in Model.Persons)
             {
@@ -29,6 +30,12 @@
                     <td>
                         <a asp-page="Edit" asp-route-personId="@person.Id"><i class='bx bx-edit'></i></a>
                     </td>
+                    <td>
+                        <a asp-page="View" asp-route-personId="@person.Id">
+                            <i class='bx bxs-user-detail'></i>
+                        </a>
+                    </td>
+
                     <td>
                         <a href="javascript:fetchInfo(@person.Id)"><i class='bx bx-info-circle'></i></a>
                     </td>
