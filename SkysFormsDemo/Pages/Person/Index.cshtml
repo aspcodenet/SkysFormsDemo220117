@@ -1,0 +1,52 @@
+﻿@page
+@using Microsoft.EntityFrameworkCore.Metadata.Conventions
+@model IndexModel
+@{
+    ViewData["Title"] = "Personer";
+}
+
+
+
+<div class="card">
+    <div class="card-header">
+        <h1>Alla personer</h1>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <tr>
+                <th>Namn</th>
+                <th>Email</th>
+                <th>City</th>
+                <th></th>
+                <th></th>
+            </tr>
+            @foreach (var person in Model.Persons)
+            {
+                <tr>
+                    <td>@person.Name</td>
+                    <td>@person.Email</td>
+                    <td>@person.City</td>
+                    <td>
+                        <a asp-page="Edit" asp-route-personId="@person.Id"><i class='bx bx-edit'></i></a>
+                    </td>
+                    <td>
+                        <a href="javascript:fetchInfo(@person.Id)"><i class='bx bx-info-circle'></i></a>
+                    </td>
+
+                </tr>
+            }
+        </table>
+        
+        <a class="btn" asp-page="New">Create new</a>
+
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        function fetchInfo(id) {
+            alert('Hämta id ' + id);
+        }
+    </script>
+}
