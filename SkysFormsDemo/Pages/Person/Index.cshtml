@@ -42,11 +42,24 @@
     </div>
 </div>
 
+<div>
+    <h3 id="namn"></h3>
+    <p id="more"></p>
+</div>
+
 @section Scripts
 {
     <script>
         function fetchInfo(id) {
-            alert('Hämta id ' + id);
+            fetch("/Person?handler=FetchInfo&id=" + id)
+                .then((response) => response.json())
+                .then((json) => {
+                        document.getElementById('namn').innerHTML = json.namn;
+                        document.getElementById('more').innerHTML = json.antalBilar;
+                    }
+            
+                );
+            
         }
     </script>
 }
