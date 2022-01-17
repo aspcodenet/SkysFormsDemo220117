@@ -10,7 +10,6 @@ namespace SkysFormsDemo.Pages.Person
         public string Name { get; set; }
         public int Id { get; set; }
 
-        public List<Item> Items { get; set; }
 
         public class Item
         {
@@ -38,22 +37,42 @@ namespace SkysFormsDemo.Pages.Person
         public void OnGet(int personId)
         {
             Id = personId;
-            var person = _context.Person.Include(e => e.OwnedCars).First(person => person.Id == personId);
+            var person = _context.Person.First(person => person.Id == personId);
             Name = person.Name;
-            Items = person.OwnedCars.Select(e => new Item
-            {
-                BoughtDate = e.BoughtDate,
-                Id = e.Id,
-                Model = e.Model,
-                Fuel = e.Fuel,
-                Manufacturer = e.Manufacturer,
-                Type = e.Type,
-                Vin = e.Vin
-
-
-            }).ToList();
-
         }
 
+        public IActionResult OnGetFetchMore(int personId, long lastTicks)
+        {
+            DateTime dateOfLastShown = new DateTime(lastTicks).AddMilliseconds(100);
+
+
+
+            var list = _context.Person
+                .Where(e => e.Id == personId)
+                .SelectMany(e => e.OwnedCars)
+                .Where(d => lastTicks == 0 || d.BoughtDate > dateOfLastShown)
+                .OrderBy(e => e.BoughtDate)
+                .Take(5)
+                .Select(e => new Item
+                {
+                    BoughtDate = e.BoughtDate,
+                    Id = e.Id,
+                    Model = e.Model,
+                    Fuel = e.Fuel,
+                    Manufacturer = e.Manufacturer,
+                    Type = e.Type,
+                    Vin = e.Vin
+
+
+                }).ToList();
+
+            lastTicks = 0;
+            if (list.Any())
+                lastTicks = list.Last().BoughtDate.Ticks;
+            return new JsonResult(new { items = list, lastTicks });
+        }
     }
+
+
+}
 }
