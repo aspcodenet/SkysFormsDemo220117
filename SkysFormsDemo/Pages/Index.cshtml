@@ -4,4 +4,30 @@
     ViewData["Title"] = "Home page";
 }
 
-<h1>Welcome</h1>
+<h1>Latest products</h1>
+<div class="gallery">
+    @foreach (var product in Model.NewItems)
+    {
+        <div class="product-box">
+            <div class="container">
+                <img src="https://picsum.photos/300/300?@product.Id" alt="cookies" class="hero-image"/>
+
+                <div class="price">$
+                    <div>@product.Price.ToString("0")</div></div>
+
+                <div class="information">
+
+                    <div class="name">@product.Name</div>
+
+                    <div class="store">@product.Color</div>
+
+                    <a href="#" class="button">Purchase Product</a>
+
+                </div> <!-- end information -->
+            </div> <!-- end container -->
+        </div>
+        <!-- end product-box -->
+    }
+
+
+</div>
