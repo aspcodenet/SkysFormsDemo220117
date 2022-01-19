@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -15,10 +16,11 @@ namespace SkysFormsDemo.Pages.Person
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
         [MaxLength(100)]
         [Required]
-        public string Name { get; set; }
+        public string Namnet { get; set; }
 
         [StringLength(100)]
         public string StreetAddress { get; set; }
@@ -56,9 +58,10 @@ namespace SkysFormsDemo.Pages.Person
         [GoodYear(ErrorMessage = "Varken Stefan eller hans fru föddes det året")]
         public int GoodYear { get; set; }
 
-        public EditModel(ApplicationDbContext context)
+        public EditModel(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public void OnGet(int personId)
@@ -67,14 +70,8 @@ namespace SkysFormsDemo.Pages.Person
                 .Include(e=>e.Country)
                 .First(u=>u.Id == personId );
 
-            Name = person.Name;
-            CarCount = person.CarCount;
-            City = person.City;
-            Email = person.Email;
-            PostalCode = person.PostalCode;
-            Salary = person.Salary;
-            StreetAddress = person.StreetAddress;
-            CountryId = person.Country.Id;
+            _mapper.Map(person, this);
+
             FillCountryList();
         }
 
@@ -93,14 +90,17 @@ namespace SkysFormsDemo.Pages.Person
             if (ModelState.IsValid)
             {
                 var person = _context.Person.First(u=>u.Id == personId);
-                person.Name = Name;
-                person.CarCount = CarCount;
-                person.City = City;
+
+                _mapper.Map(this,person);
                 person.Country = _context.Countries.First(e => e.Id == CountryId);
-                person.Email = Email;
-                person.PostalCode = PostalCode;
-                person.Salary = Salary;
-                person.StreetAddress = StreetAddress;
+
+                //person.Name = Namnet;
+                //person.CarCount = CarCount;
+                //person.City = City;
+                //person.Email = Email;
+                //person.PostalCode = PostalCode;
+                //person.Salary = Salary;
+                //person.StreetAddress = StreetAddress;
                 _context.SaveChanges();
                 return RedirectToPage("Index");
             }
