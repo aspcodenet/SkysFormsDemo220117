@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SkysFormsDemo.Data;
+using SkysFormsDemo.Pages.Person;
+using SkysFormsDemo.ViewModels;
 
 namespace SkysFormsDemo.Pages
 {
@@ -9,16 +12,9 @@ namespace SkysFormsDemo.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly ApplicationDbContext _context;
 
-        public class Item
-        {
-            public int Id { get; set; }
-            public string Name { get; set; }
-            public string Color { get; set; }
-            public string Ean13 { get; set; }
-            public decimal Price { get; set; }
-        }
 
-        public List<Item> NewItems { get; set; }
+        public List<ProductViewModel> NewItems { get; set; }
+        public List<ProductViewModel> OldestItems { get; set; }
 
         public IndexModel(ILogger<IndexModel> logger, ApplicationDbContext context)
         {
@@ -29,7 +25,7 @@ namespace SkysFormsDemo.Pages
         public void OnGet()
         {
             NewItems = _context.Products.OrderByDescending(e => e.Created).Take(5)
-                .Select(e => new Item
+                .Select(e => new ProductViewModel
                 {
                     Id = e.Id,
                     Color = e.Color,
@@ -37,6 +33,17 @@ namespace SkysFormsDemo.Pages
                     Name = e.Name,
                     Price = e.Price
                 }).ToList();
+
+            OldestItems = _context.Products.OrderBy(e => e.Created).Take(5)
+                .Select(e => new ProductViewModel
+                {
+                    Id = e.Id,
+                    Color = e.Color,
+                    Ean13 = e.Ean13,
+                    Name = e.Name,
+                    Price = e.Price
+                }).ToList();
+
         }
     }
 }

@@ -1,0 +1,12 @@
+﻿@page
+@model SkysFormsDemo.Pages.PopularModel
+@{
+}
+
+<h1>Most popular products</h1>
+<div class="gallery">
+    @foreach (var product in Model.Items)
+    {
+        <partial name="_ProductBox" model="@product" />
+    }
+</div>
