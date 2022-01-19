@@ -29,19 +29,19 @@ namespace SkysFormsDemo.Pages
 
         public void OnGet()
         {
-            var prod = _context.Products.First();
-            var productViewModel = _mapper.Map<ProductViewModel>(prod);
+            //var prod = _context.Products.First();
+            //var productViewModel = _mapper.Map<ProductViewModel>(prod);
 
-            //Onpost - ON EDIT kommer in NYA värden i productViewModel
-            //Uppdatera befiontlig = skicka in befintlig prod som parameter 2 
-            _mapper.Map(productViewModel,prod);
-            _context.SaveChanges();
+            ////Onpost - ON EDIT kommer in NYA värden i productViewModel
+            ////Uppdatera befiontlig = skicka in befintlig prod som parameter 2 
+            //_mapper.Map(productViewModel,prod);
+            //_context.SaveChanges();
 
-            //Onpost - ON NEW kommer in NYA värden i productViewModel
-            var product = new Product();
-            _mapper.Map(productViewModel, product);
-            _context.Products.Add(product);
-            _context.SaveChanges();
+            ////Onpost - ON NEW kommer in NYA värden i productViewModel
+            //var product = new Product();
+            //_mapper.Map(productViewModel, product);
+            //_context.Products.Add(product);
+            //_context.SaveChanges();
 
 
 
