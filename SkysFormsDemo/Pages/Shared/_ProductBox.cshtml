@@ -1,0 +1,23 @@
+﻿@model SkysFormsDemo.ViewModels.ProductViewModel
+
+
+        <div class="product-box">
+            <div class="container">
+                <img src="https://picsum.photos/300/300?@Model.Id" alt="cookies" class="hero-image"/>
+
+                <div class="price">$
+                    <div>@Model.Price.ToString("0")</div></div>
+
+                <div class="information">
+
+                    <div class="name">@Model.Name</div>
+
+                    <div class="store">@Model.Color, @Model.Color</div>
+
+                    <a href="#" class="button">Purchase Product</a>
+
+                </div> <!-- end information -->
+            </div> <!-- end container -->
+        </div>
+        <!-- end product-box -->
+

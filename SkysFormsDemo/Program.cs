@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using SkysFormsDemo.Data;
 using SkysFormsDemo.Services;
@@ -21,6 +22,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 builder.Services.AddTransient<DataInitializer>();
 builder.Services.AddTransient<IPersonService,PersonService>();
 builder.Services.AddTransient<IAccountService, AccountService>();
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
 //builder.Services.AddResponseCaching();
 var app = builder.Build();
 

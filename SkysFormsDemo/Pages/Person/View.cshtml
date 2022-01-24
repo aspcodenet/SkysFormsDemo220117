@@ -30,12 +30,12 @@
 @section Scripts
 {
     <script>
-        lastTicks = 0;
+        pageNo = 1;
         function fetchMore() {
-            fetch("View?handler=FetchMore&lastTicks=" + lastTicks + "&personId=@Model.Id")
+            fetch("View?handler=FetchMore&pageNo=" + pageNo + "&personId=@Model.Id")
                 .then((response) => response.json())
                 .then((json) => {
-                        lastTicks = json.lastTicks;
+                        pageNo = pageNo + 1;
                         json.items.forEach(tableElements);
                     }
                 );
