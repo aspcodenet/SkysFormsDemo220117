@@ -100,7 +100,7 @@ a {
         border: 2px solid #EFEEF1;
         border-radius: 6px;
         font-size: 18px;
-        padding: 0 15px;
+        padding: 11px 15px;
     }
 
     .header__search .bx-search {
@@ -375,7 +375,7 @@ a {
         border: 2px solid #EFEEF1;
         border-radius: 6px;
         font-size: 18px;
-        padding: 0 15px;
+        padding: 9px 15px;
     }
 
     .header__search .bx-search {
@@ -624,4 +624,9 @@ td i {
     justify-content: center;
     align-items: center;
     margin: 50px 0;
+}
+
+
+.bx:hover {
+    cursor: pointer;
 }

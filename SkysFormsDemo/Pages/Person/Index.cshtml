@@ -9,14 +9,47 @@
 
 <div class="card">
     <div class="card-header">
-        <h1>Alla personer</h1>
+        <h1>Personer</h1>
     </div>
+
     <div class="card-body">
         <table class="table">
             <tr>
-                <th>Namn</th>
-                <th>Email</th>
-                <th>City</th>
+                <td colspan="6">
+                    <div class="header__search">
+                    <form id="form-id" method="get">
+                        <input type=text asp-for="q" placeholder="search">
+                        <i class="bx bx-search" style="cursor:pointer" onclick="document.getElementById('form-id').submit();"></i>
+                    </form>
+                    </div>
+                </td>
+
+            </tr>
+            <tr>
+                <th>
+                    <a asp-page="Index" asp-route-q="@Model.q" asp-route-sortOrder="asc" asp-route-sortColumn="Name">
+                        <i class='bx bx-chevron-up-circle'></i>
+                        </a>
+                    Namn
+                    <a asp-page="Index" asp-route-q="@Model.q" asp-route-sortOrder="desc" asp-route-sortColumn="Name">
+                        <i class='bx bx-chevron-down-circle'></i>
+                    </a>
+                </th>
+                <th>
+                    <a asp-page="Index" asp-route-q="@Model.q" asp-route-sortOrder="asc" asp-route-sortColumn="Email">
+                    <i class='bx bx-chevron-up-circle'></i>
+                    </a>
+                    Email
+                    <a asp-page="Index" asp-route-q="@Model.q" asp-route-sortOrder="desc" asp-route-sortColumn="Email">
+                    <i class='bx bx-chevron-down-circle'></i></a>
+                </th>
+                <th>
+                    <a asp-page="Index" asp-route-q="@Model.q" asp-route-sortOrder="asc" asp-route-sortColumn="City">
+                    <i class='bx bx-chevron-up-circle' ></i></a>
+                    City
+                    <a asp-page="Index" asp-route-q="@Model.q" asp-route-sortOrder="desc" asp-route-sortColumn="City">
+                    <i class='bx bx-chevron-down-circle' ></i></a>
+                </th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -41,7 +74,32 @@
                     </td>
 
                 </tr>
-            }
+            }<tfooter>
+                <tr>
+                    <td>
+                        @if (Model.pageno > 1)
+                        {
+                            <a asp-route-pageno="@(Model.pageno - 1)" 
+                               asp-route-sortOrder="@(Model.sortOrder)" 
+                               asp-route-sortColumn="@(Model.sortColumn)" 
+                               asp-page="Index">Prev</a>
+                        }
+                    </td>
+                    <td colspan="4">
+                        Showing @Model.pageno of @Model.PageCount
+                    </td>
+                    <td>
+                        @if (Model.pageno < Model.PageCount)
+                        {
+                            <a asp-route-pageno="@(Model.pageno + 1)"
+                               asp-route-sortOrder="@(Model.sortOrder)" 
+                               asp-route-sortColumn="@(Model.sortColumn)" 
+                               asp-page="Index">Next</a>
+                        }
+                        
+                    </td>
+                </tr>
+            </tfooter>
         </table>
         
         <a class="btn" asp-page="New">Create new</a>

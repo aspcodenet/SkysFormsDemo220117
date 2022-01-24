@@ -55,7 +55,7 @@ public class DataInitializer
 
     private void SeedPersons()
     {
-        while (_dbContext.Person.Count() < 10)
+        while (_dbContext.Person.Count() < 100)
         {
             _dbContext.Person.Add(GeneratePerson());
             _dbContext.SaveChanges();

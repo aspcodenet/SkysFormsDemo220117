@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MessagePack.Formatters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SkysFormsDemo.Data;
+using SkysFormsDemo.Infrastructure.Paging;
 using SkysFormsDemo.Services;
 
 namespace SkysFormsDemo.Pages.Person
@@ -13,6 +15,17 @@ namespace SkysFormsDemo.Pages.Person
         private readonly ApplicationDbContext _context;
         public List<PersonViewModel> Persons { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public string q { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public ExtensionMethods.QuerySortOrder sortOrder { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string sortColumn { get; set; }
+
+
+        [BindProperty(SupportsGet = true)]
+        public int pageno { get; set; }
+        
         public class PersonViewModel
         {
             public int Id { get; set; }       
@@ -38,13 +51,26 @@ namespace SkysFormsDemo.Pages.Person
 
         public void OnGet()
         {
-            Persons = _personService.GetPersons().Select(r => new PersonViewModel
+            var query = _context.Person.AsQueryable();
+            if (!string.IsNullOrEmpty(q))
+                query = query.Where(e => e.Name.Contains(q) || e.City.Contains(q));
+
+            if (string.IsNullOrEmpty(sortColumn)) sortColumn = "Name";
+            if (pageno == 0) pageno = 1;
+            query = query.OrderBy(sortColumn, sortOrder);
+            var result = query.GetPaged(pageno, 20);
+
+            PageCount = result.PageCount;
+
+            Persons = result.Results.Select(e => new PersonViewModel
             {
-                City = r.City,
-                Id = r.Id,
-                Name = r.Name,
-                Email = r.Email
+                City = e.City,
+                Name = e.Name,
+                Email = e.Email,
+                Id = e.Id
             }).ToList();
         }
+
+        public int PageCount { get; set; }
     }
 }
