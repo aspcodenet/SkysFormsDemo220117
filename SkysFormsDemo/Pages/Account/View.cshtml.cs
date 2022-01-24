@@ -6,7 +6,7 @@ using SkysFormsDemo.Services;
 
 namespace SkysFormsDemo.Pages.Account
 {
-    //[ResponseCache(Duration=30)]
+    [ResponseCache(Duration=30, VaryByQueryKeys = new []{ "accountId" })]
     public class ViewModel : PageModel
     {
         private readonly IAccountService _accountService;
