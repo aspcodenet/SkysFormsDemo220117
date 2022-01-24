@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace SkysFormsDemo.Pages
 {
+    //[ResponseCache(Duration = 30)]
     public class PrivacyModel : PageModel
     {
         private readonly ILogger<PrivacyModel> _logger;
