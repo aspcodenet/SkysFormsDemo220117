@@ -24,6 +24,10 @@ builder.Services.AddTransient<IPersonService,PersonService>();
 builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddResponseCaching();
+builder.Services.AddTransient<IPersonSearchService, PersonSearchService>();
+builder.Services.AddTransient<IPersonSearchProvider, AzurePersonSearchProvider>();
+builder.Services.AddTransient<IPersonSearchIndexer, AzurePersonSearchProvider>();
+
 
 var app = builder.Build();
 

@@ -13,6 +13,8 @@ namespace SkysFormsDemo.Pages.Person
     {
         private readonly IPersonService _personService;
         private readonly ApplicationDbContext _context;
+        private readonly IPersonSearchService personSearchService;
+
         public List<PersonViewModel> Persons { get; set; }
 
         [BindProperty(SupportsGet = true)]
@@ -34,10 +36,11 @@ namespace SkysFormsDemo.Pages.Person
             public string Email { get; set; }
         }
 
-        public IndexModel(IPersonService personService, ApplicationDbContext context)
+        public IndexModel(IPersonService personService, ApplicationDbContext context, IPersonSearchService personSearchService)
         {
             _personService = personService;
             _context = context;
+            this.personSearchService = personSearchService;
         }
 
         public IActionResult OnGetFetchInfo(int id)
@@ -51,24 +54,36 @@ namespace SkysFormsDemo.Pages.Person
 
         public void OnGet()
         {
-            var query = _context.Person.AsQueryable();
-            if (!string.IsNullOrEmpty(q))
-                query = query.Where(e => e.Name.Contains(q) || e.City.Contains(q));
+            //var query = _context.Person.AsQueryable();
+            //if (!string.IsNullOrEmpty(q))
+            //    query = query.Where(e => e.Name.Contains(q) || e.City.Contains(q));
 
             if (string.IsNullOrEmpty(sortColumn)) sortColumn = "Name";
             if (pageno == 0) pageno = 1;
-            query = query.OrderBy(sortColumn, sortOrder);
-            var result = query.GetPaged(pageno, 20);
 
-            PageCount = result.PageCount;
+            var r = personSearchService.Search(q, sortOrder.ToString(), sortColumn, pageno);
+            PageCount = r.TotalPages;
 
-            Persons = result.Results.Select(e => new PersonViewModel
+            //query = query.OrderBy(sortColumn, sortOrder);
+            //var result = query.GetPaged(pageno, 20);
+
+            //PageCount = result.PageCount;
+
+            Persons = r.Items.Select(e => new PersonViewModel
             {
                 City = e.City,
                 Name = e.Name,
                 Email = e.Email,
                 Id = e.Id
             }).ToList();
+
+            //Persons = result.Results.Select(e => new PersonViewModel
+            //{
+            //    City = e.City,
+            //    Name = e.Name,
+            //    Email = e.Email,
+            //    Id = e.Id
+            //}).ToList();
         }
 
         public int PageCount { get; set; }
